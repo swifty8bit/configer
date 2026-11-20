@@ -36,6 +36,9 @@ enum Command {
         /// Name of the config
         name: String,
     },
+
+    /// List all stored configs
+    List,
 }
 
 fn config_file() -> Result<PathBuf> {
@@ -104,6 +107,11 @@ fn main() -> Result<()> {
                 .set_text(stored.to_string_lossy().into_owned())
                 .context("failed to write to the clipboard")?;
             println!("Copied {}", stored.display());
+        }
+        Command::List => {
+            for (name, path) in &configs {
+                println!("{name} -> {}", path.display());
+            }
         }
     }
 
